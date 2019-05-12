@@ -5,14 +5,14 @@ import java.util.List;
 
 public class TrafficSign {
 
-    private boolean mStatus;
+    private boolean mIsDisplayingMessage;
     private long mTimestamp;
     private String mName;
     private List<String> mMessages;
 
-    public TrafficSign(String name, boolean status, long timestamp) {
+    public TrafficSign(String name, boolean isDisplayingMessage, long timestamp) {
         mName = name;
-        mStatus = status;
+        mIsDisplayingMessage = isDisplayingMessage;
         mTimestamp = timestamp;
         mMessages = new ArrayList<>();
     }
@@ -25,12 +25,12 @@ public class TrafficSign {
         mName = name;
     }
 
-    public boolean isStatus() {
-        return mStatus;
+    public boolean isDisplayingMessage() {
+        return mIsDisplayingMessage;
     }
 
-    public void setStatus(boolean status) {
-        mStatus = status;
+    public void setDisplayMessageStatus(boolean isDisplayingMessage) {
+        mIsDisplayingMessage = isDisplayingMessage;
     }
 
     public long getTimestamp() {
