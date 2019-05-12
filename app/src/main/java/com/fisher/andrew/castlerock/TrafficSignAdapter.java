@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TrafficSignAdapter extends RecyclerView.Adapter<TrafficSignAdapter.ViewHolder> {
@@ -49,8 +48,7 @@ public class TrafficSignAdapter extends RecyclerView.Adapter<TrafficSignAdapter.
 
         currentRow.setOnClickListener(view -> {
             Intent intent = new Intent(mContext,SignInformationActivity.class);
-            ArrayList<String> currentSignsMessages = (ArrayList<String>) currentSign.getMessage();
-            intent.putStringArrayListExtra("display_message_array", currentSignsMessages);
+            intent.putExtra("display_message", currentSign.getMessage());
             mContext.startActivity(intent);
         });
     }

@@ -91,33 +91,35 @@ public class MainActivity extends AppCompatActivity {
                 String signName = jsonObject.getString("name");
                 boolean isDisplayingMessage = jsonObject.getString("status").equals("DISPLAYING_MESSAGE");
                 long lastUpdatedTimestamp = jsonObject.getLong("lastUpdated");
-                TrafficSign currentParsedSign = new TrafficSign(signName,isDisplayingMessage,lastUpdatedTimestamp);
+                String signDisplay;
 
                 if(isDisplayingMessage){
 
                     JSONArray pagesJSONArray = jsonObject.getJSONObject("display").getJSONArray("pages");
+                    StringBuilder messageBuilder = new StringBuilder();
 
                     for(int i = 0; i<pagesJSONArray.length();i++){
-                        StringBuilder messageBuilder = new StringBuilder();
                         JSONObject currentPage = pagesJSONArray.getJSONObject(i);
                         JSONArray linesJSONArray = currentPage.getJSONArray("lines");
 
                         for(int j = 0; j < linesJSONArray.length();j++){
+                            String currentLine = linesJSONArray.getString(j);
                             messageBuilder.append(linesJSONArray.getString(j));
-                        }
 
-                        String trafficMessage = messageBuilder.toString();
-                        currentParsedSign.addMessage(trafficMessage);
+                            if(!currentLine.endsWith(" ")){
+                                messageBuilder.append(" ");
+                            }
+                        }
 
                     }
 
-
-
+                    signDisplay = messageBuilder.toString();
+                }else{
+                    signDisplay = "BLANK";
                 }
 
+                return new TrafficSign(signName,isDisplayingMessage,lastUpdatedTimestamp,signDisplay);
 
-
-                return currentParsedSign;
             } catch (JSONException e) {
                 e.printStackTrace();
             }

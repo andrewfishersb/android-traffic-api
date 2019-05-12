@@ -1,20 +1,17 @@
 package com.fisher.andrew.castlerock;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class TrafficSign {
 
     private boolean mIsDisplayingMessage;
     private long mTimestamp;
     private String mName;
-    private List<String> mMessages;
+    private String mDisplayMessage;
 
-    public TrafficSign(String name, boolean isDisplayingMessage, long timestamp) {
+    public TrafficSign(String name, boolean isDisplayingMessage, long timestamp, String displayMessage) {
         mName = name;
         mIsDisplayingMessage = isDisplayingMessage;
         mTimestamp = timestamp;
-        mMessages = new ArrayList<>();
+        mDisplayMessage = displayMessage;
     }
 
     public String getName() {
@@ -41,12 +38,12 @@ public class TrafficSign {
         mTimestamp = timestamp;
     }
 
-    public List<String> getMessage() {
-        return mMessages;
+    public String getMessage() {
+        return mDisplayMessage;
     }
 
-    public void addMessage(String message) {
-        mMessages.add(message);
+    public void setDisplayingMessage(String message) {
+        mDisplayMessage = message;
     }
 
 }
