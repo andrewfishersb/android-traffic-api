@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +42,8 @@ public class TrafficSignAdapter extends RecyclerView.Adapter<TrafficSignAdapter.
 
         if(currentSign.isDisplayingMessage()){
             signText.setTextColor(Color.BLACK);
-            Log.d("Message",i+ " Message Displaying");
+        }else{
+            signText.setTextColor(Color.GRAY);
         }
 
         currentRow.setOnClickListener(view -> {

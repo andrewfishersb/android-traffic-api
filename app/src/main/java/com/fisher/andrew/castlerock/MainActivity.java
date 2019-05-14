@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Button;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,6 +14,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -22,17 +25,30 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     private static final String API_URL = "https://iatg.carsprogram.org/signs_v1/api/signs";
-
+    private List<TrafficSign> mSignList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        List<TrafficSign> signList = null;
-        try {
-            signList = new TrafficTask().execute().get();
+        mSignList = null;
+        setListView();
 
-            TrafficSignAdapter adapter = new TrafficSignAdapter(signList);
+        Button refreshButton = findViewById(R.id.refreshButton);
+        refreshButton.setOnClickListener(view -> {
+            setListView();
+        });
+
+
+    }
+
+    public void setListView(){
+        try {
+            mSignList = new TrafficTask().execute().get();
+
+            sortSignListByTimestamp(mSignList);
+
+            TrafficSignAdapter adapter = new TrafficSignAdapter(mSignList);
             RecyclerView adapterRV = findViewById(R.id.trafficInfoRV);
             adapterRV.setAdapter(adapter);
             adapterRV.setLayoutManager(new LinearLayoutManager(this));
@@ -43,8 +59,21 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
 
-
+    public void sortSignListByTimestamp(List<TrafficSign> signList){
+        Collections.sort(signList, new Comparator<TrafficSign>() {
+            @Override
+            public int compare(TrafficSign signOne, TrafficSign signTwo) {
+                if(signOne.getTimestamp() < signTwo.getTimestamp()){
+                    return 1;
+                }else if(signOne.getTimestamp() > signTwo.getTimestamp()){
+                    return -1;
+                }else{
+                    return 0;
+                }
+            }
+        });
     }
 
     public static class TrafficTask extends AsyncTask<Void,Void,List<TrafficSign>>{
@@ -89,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         public TrafficSign parseJsonToSignList(JSONObject jsonObject){
             try {
                 String signName = jsonObject.getString("name");
+                Log.d("StatusCheck",jsonObject.getString("name") + " " + jsonObject.getString("status") + " " + jsonObject.getString("status").equals("DISPLAYING_MESSAGE"));
                 boolean isDisplayingMessage = jsonObject.getString("status").equals("DISPLAYING_MESSAGE");
                 long lastUpdatedTimestamp = jsonObject.getLong("lastUpdated");
                 String signDisplay;
