@@ -39,8 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Initial view set
-        setListView();
+            setListView();
 
         Button refreshButton = findViewById(R.id.refreshButton);
         refreshButton.setOnClickListener(view -> {
@@ -48,10 +47,11 @@ public class MainActivity extends AppCompatActivity {
             setListView();
         });
 
-
     }
 
     //Retrieves a List of all signs and attaches them to a RecyclerView by using an adapter
+    //Because the AsyncTask is in this method which is run during each onCreate, rotating the screen will refresh the API call instead
+    // of crashing the application
     public void setListView(){
         try {
             mSignList = new TrafficTask().execute().get();

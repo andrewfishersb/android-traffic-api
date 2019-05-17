@@ -12,6 +12,7 @@ public class StringConstants {
     public static String DISPLAYING_NO_LINES = "No Lines";
     public static String API_URL = "https://iatg.carsprogram.org/signs_v1/api/signs";
     public static String INTENT_KEY_MESSAGE = "intent_key_message";
+    public static String PARCELABLE_KEY_TRAFFIC_SIGN_OBJECT = "intent_key_message";
 
 
 

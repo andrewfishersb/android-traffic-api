@@ -1,6 +1,9 @@
 package com.fisher.andrew.castlerock;
 
-public class TrafficSign {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class TrafficSign implements Parcelable {
 
     private boolean mIsDisplayingMessage;
     private long mTimestamp;
@@ -46,4 +49,35 @@ public class TrafficSign {
         mDisplayMessage = message;
     }
 
+    //Makes the object parcelable
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public TrafficSign createFromParcel(Parcel in) {
+            return new TrafficSign(in);
+        }
+
+        public TrafficSign[] newArray(int size) {
+            return new TrafficSign[size];
+        }
+    };
+
+    private TrafficSign(Parcel in){
+        mIsDisplayingMessage = in.readInt() != 0;
+        mName = in.readString();
+        mTimestamp = in.readLong();
+        mDisplayMessage = in.readString();
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int i) {
+        dest.writeInt((mIsDisplayingMessage) ? 1 : 0);
+        dest.writeString(mName);
+        dest.writeLong(mTimestamp);
+        dest.writeString(mDisplayMessage);
+    }
 }

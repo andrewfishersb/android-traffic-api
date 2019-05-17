@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import static com.fisher.andrew.castlerock.StringConstants.INTENT_KEY_MESSAGE;
+import static com.fisher.andrew.castlerock.StringConstants.PARCELABLE_KEY_TRAFFIC_SIGN_OBJECT;
 
 public class TrafficSignAdapter extends RecyclerView.Adapter<TrafficSignAdapter.ViewHolder> {
     private Context mContext;
@@ -54,7 +54,7 @@ public class TrafficSignAdapter extends RecyclerView.Adapter<TrafficSignAdapter.
         //Click on this item in the adapter to view the TrafficSign objects message on another activity.
         currentRow.setOnClickListener(view -> {
             Intent intent = new Intent(mContext,SignInformationActivity.class);
-            intent.putExtra(INTENT_KEY_MESSAGE, currentSign.getMessage());
+            intent.putExtra(PARCELABLE_KEY_TRAFFIC_SIGN_OBJECT, currentSign);
             mContext.startActivity(intent);
         });
     }
