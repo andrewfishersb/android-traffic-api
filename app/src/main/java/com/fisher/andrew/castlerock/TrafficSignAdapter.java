@@ -13,10 +13,13 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import static com.fisher.andrew.castlerock.StringConstants.INTENT_KEY_MESSAGE;
+
 public class TrafficSignAdapter extends RecyclerView.Adapter<TrafficSignAdapter.ViewHolder> {
     private Context mContext;
     private List<TrafficSign> mSigns;
 
+    //Reads in a List of TrafficSign objects and instantiates it with an instance variable list.
     public TrafficSignAdapter(List<TrafficSign> signs){
         mSigns = signs;
     }
@@ -38,17 +41,20 @@ public class TrafficSignAdapter extends RecyclerView.Adapter<TrafficSignAdapter.
         ConstraintLayout currentRow = viewHolder.mCurrentRow;
         TrafficSign currentSign = mSigns.get(i);
 
+        //Set sign name
         signText.setText(currentSign.getName());
 
+        //Determine if a message exists, if it does, make the text black, else make it gray
         if(currentSign.isDisplayingMessage()){
             signText.setTextColor(Color.BLACK);
         }else{
             signText.setTextColor(Color.GRAY);
         }
 
+        //Click on this item in the adapter to view the TrafficSign objects message on another activity.
         currentRow.setOnClickListener(view -> {
             Intent intent = new Intent(mContext,SignInformationActivity.class);
-            intent.putExtra("display_message", currentSign.getMessage());
+            intent.putExtra(INTENT_KEY_MESSAGE, currentSign.getMessage());
             mContext.startActivity(intent);
         });
     }
